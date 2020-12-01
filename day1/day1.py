@@ -25,9 +25,9 @@ In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying the
 Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
 """
 
-test_arr = [1721, 979, 366, 299, 675, 1456]
+test_set = (1721, 979, 366, 299, 675, 1456)
 
-input_arr = [
+input_set = (
     1664,
     1939,
     1658,
@@ -228,29 +228,30 @@ input_arr = [
     1671,
     1807,
     1943,
-]
+)
 
 
-def find_two(total, input_arr):
-    for number in input_arr:
+def find_two(total, input_set):
+    for number in input_set:
         looking_for = total - number
-        if looking_for in input_arr:
+        if looking_for in input_set:
             return number * looking_for
     return False
 
 
-assert find_two(2020, test_arr) == 514579
+assert find_two(2020, test_set) == 514579
 
-print("solution 1:", find_two(2020, input_arr))
+print("solution 1:", find_two(2020, input_set))
 
 
-def find_three(total, input_arr):
-    for number in input_arr:
+def find_three(total, input_set):
+    for number in input_set:
         new_total = total - number
-        if found := find_two(new_total, input_arr):
+        if found := find_two(new_total, input_set):
             return number * found
 
 
-assert find_three(2020, test_arr) == 241861950
+assert find_three(2020, test_set) == 241861950
 
-print("solution 2:", find_three(2020, input_arr))
+print("solution 2:", find_three(2020, input_set))
+
