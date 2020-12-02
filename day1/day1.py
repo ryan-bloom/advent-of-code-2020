@@ -25,9 +25,9 @@ In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying the
 Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
 """
 
-test_set = (1721, 979, 366, 299, 675, 1456)
+test_set = {1721, 979, 366, 299, 675, 1456}
 
-input_set = (
+input_set = {
     1664,
     1939,
     1658,
@@ -228,7 +228,7 @@ input_set = (
     1671,
     1807,
     1943,
-)
+}
 
 
 def find_two(total, input_set):
