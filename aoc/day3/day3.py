@@ -1,5 +1,6 @@
 from aoc.helpers import read_lines
 from functools import reduce
+from operator import mul
 
 
 class MapTraversal:
@@ -16,15 +17,6 @@ class MapTraversal:
         self.map_height = len(self.tree_map)
         self.map_width = len(self.tree_map[0])
 
-    def calc_move_right(self, col_num):
-        next_space = col_num + self.move_right
-        if next_space == self.map_width:
-            return 0
-        if next_space < self.map_width:
-            return next_space
-        else:
-            return next_space - self.map_width
-
     def run(self):
         """ until at the bottom of the map, move and determine if a tree was encountered """
         row_num = 0
@@ -34,7 +26,7 @@ class MapTraversal:
             if self.tree_map[row_num][col_num] == self.TREE_CHAR:
                 self.num_trees += 1
             row_num += self.move_down
-            col_num = self.calc_move_right(col_num)
+            col_num = (col_num + self.move_right) % self.map_width
 
         return self.num_trees
 
@@ -49,7 +41,7 @@ test_traversal = MapTraversal(test_map_panel, 1, 3)
 assert test_traversal.run() == 7
 
 test_results = [MapTraversal(test_map_panel, x, y).run() for [x, y] in multiply_slopes]
-assert reduce((lambda x, y: x * y), test_results) == 336
+assert reduce(mul, test_results) == 336
 
 
 part_1_map_panel = []
@@ -62,4 +54,4 @@ print("part 1 num trees", part_1_traversal.run())
 part_2_results = [
     MapTraversal(part_1_map_panel, x, y).run() for [x, y] in multiply_slopes
 ]
-print("part 2 multiplied trees", reduce((lambda x, y: x * y), part_2_results))
+print("part 2 multiplied trees", reduce(mul, part_2_results))
