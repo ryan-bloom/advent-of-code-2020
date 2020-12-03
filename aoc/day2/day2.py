@@ -51,7 +51,7 @@ assert check_password_string("2-9 c: ccccccccc", is_password_valid_count) is Tru
 
 def get_num_valid_passwords(pw_validator):
     num_valid = 0
-    for line in read_lines("data/day2/day2.txt"):
+    for line in read_lines("day2/day2.txt"):
         if check_password_string(line, pw_validator):
             num_valid += 1
     print(num_valid)
