@@ -20,6 +20,8 @@ In the above example, 2 passwords are valid. The middle password, cdefg, is not;
 How many passwords are valid according to their policies?
 """
 
+from aoc.helpers import read_lines
+
 
 def check_password_string(password_string, pw_validator):
     """ Check a password string w/ a given validator callable """
@@ -49,12 +51,9 @@ assert check_password_string("2-9 c: ccccccccc", is_password_valid_count) is Tru
 
 def get_num_valid_passwords(pw_validator):
     num_valid = 0
-    with open("input1.txt") as f:
-        data = f.read()
-        for line in data.split("\n"):
-            if check_password_string(line, pw_validator):
-                num_valid += 1
-
+    for line in read_lines("aoc/day2/input1.txt"):
+        if check_password_string(line, pw_validator):
+            num_valid += 1
     print(num_valid)
 
 
