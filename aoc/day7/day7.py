@@ -84,18 +84,18 @@ def compose_bag_dict(datapath):
     return bag_dict
 
 
-def can_hold_bag(bag_dict, bag_type, bags_found=set()):
+def count_can_hold_bag(bag_dict, bag_type, bags_found=set()):
     count_can_hold = 0
     for outer_bag, bags_inside in bag_dict.items():
         if (bag_type in bags_inside) and (outer_bag not in bags_found):
             bags_found.add(outer_bag)
-            count_can_hold += 1 + can_hold_bag(bag_dict, outer_bag, bags_found)
+            count_can_hold += 1 + count_can_hold_bag(bag_dict, outer_bag, bags_found)
     return count_can_hold
 
 
 def get_count_of_bags_that_can_hold(datapath, outer_bag):
     bag_dict = compose_bag_dict(datapath)
-    return can_hold_bag(bag_dict, outer_bag, set())
+    return count_can_hold_bag(bag_dict, outer_bag, set())
 
 
 assert get_count_of_bags_that_can_hold("day7/test.txt", "shiny gold") == 4
