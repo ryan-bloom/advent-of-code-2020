@@ -28,6 +28,33 @@ A light red bag, which can hold bright white and muted yellow bags, either of wh
 So, in this example, the number of bag colors that can eventually contain at least one shiny gold bag is 4.
 
 How many bag colors can eventually contain at least one shiny gold bag? (The list of rules is quite long; make sure you get all of it.)
+
+--- Part Two ---
+It's getting pretty expensive to fly these days - not because of ticket prices, but because of the ridiculous number of bags you need to buy!
+
+Consider again your shiny gold bag and the rules from the above example:
+
+faded blue bags contain 0 other bags.
+dotted black bags contain 0 other bags.
+vibrant plum bags contain 11 other bags: 5 faded blue bags and 6 dotted black bags.
+dark olive bags contain 7 other bags: 3 faded blue bags and 4 dotted black bags.
+So, a single shiny gold bag must contain 1 dark olive bag (and the 7 bags within it) plus 2 vibrant plum bags (and the 11 bags within each of those): 1 + 1*7 + 2 + 2*11 = 32 bags!
+
+Of course, the actual rules have a small chance of going several levels deeper than this example; be sure to count all of the bags, even if the nesting becomes topologically impractical!
+
+Here's another example:
+
+shiny gold bags contain 2 dark red bags.
+dark red bags contain 2 dark orange bags.
+dark orange bags contain 2 dark yellow bags.
+dark yellow bags contain 2 dark green bags.
+dark green bags contain 2 dark blue bags.
+dark blue bags contain 2 dark violet bags.
+dark violet bags contain no other bags.
+In this example, a single shiny gold bag must contain 126 other bags.
+
+How many individual bags are required inside your single shiny gold bag?
+
 """
 
 from aoc.helpers import read_lines
@@ -57,22 +84,22 @@ def compose_bag_dict(datapath):
     return bag_dict
 
 
-def get_count_of_potential_containers(datapath, bag_to_contain):
+def can_hold_bag(bag_dict, bag_type, bags_found=set()):
+    count_can_hold = 0
+    for outer_bag, bags_inside in bag_dict.items():
+        if (bag_type in bags_inside) and (outer_bag not in bags_found):
+            bags_found.add(outer_bag)
+            count_can_hold += 1 + can_hold_bag(bag_dict, outer_bag, bags_found)
+    return count_can_hold
+
+
+def get_count_of_bags_that_can_hold(datapath, outer_bag):
     bag_dict = compose_bag_dict(datapath)
-    bags_to_search_for = [
-        bag_to_contain,
-    ]
-    compatible_bags = set()
-    for search in bags_to_search_for:
-        for bag_type, bags_inside in bag_dict.items():
-            if search in (set(bags_inside.keys())):
-                compatible_bags.add(bag_type)
-                bags_to_search_for.append(bag_type)
-    return len(compatible_bags)
+    return can_hold_bag(bag_dict, outer_bag, set())
 
 
-assert get_count_of_potential_containers("day7/test.txt", "shiny gold") == 4
-print("part 1:", get_count_of_potential_containers("day7/data.txt", "shiny gold"))
+assert get_count_of_bags_that_can_hold("day7/test.txt", "shiny gold") == 4
+print("part 1:", get_count_of_bags_that_can_hold("day7/data.txt", "shiny gold"))
 
 
 def get_contents_of_bag(bag_dict, bag_type):
