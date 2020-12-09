@@ -120,10 +120,10 @@ def find_contiguous_sum_term(data, find_sum):
             return sum_group[0] + sum_group[-1]
 
 
-test_data = list(map(lambda x: int(x), read_file_to_list("day9/test.txt")))
+test_data = list(map(int, read_file_to_list("day9/test.txt")))
 assert find_non_sum(test_data, 5) == 127
 assert find_contiguous_sum_term(test_data, 127) == 62
 
-data = list(map(lambda x: int(x), read_file_to_list("day9/data.txt")))
+data = list(map(int, read_file_to_list("day9/data.txt")))
 print("part 1", find_non_sum(data, 25))
 print("part 2", find_contiguous_sum_term(data, 400480901))
