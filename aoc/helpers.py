@@ -9,3 +9,11 @@ def read_lines(datapath):
         while line:
             yield line
             line = f.readline()
+
+
+def read_file_to_list(datapath, strip=True):
+    file = open(f"{PATH}/data/{datapath}")
+    file_list = file.readlines()
+    if strip:
+        return [line.strip() for line in file_list]
+    return file_list
